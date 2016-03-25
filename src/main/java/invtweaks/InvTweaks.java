@@ -88,6 +88,7 @@ public class InvTweaks extends InvTweaksObfuscation {
     private boolean itemPickupPending = false;
     private int itemPickupTimeout = 0;
     private boolean isNEILoaded;
+    private boolean isJEILoaded;
 
     private List<String> queuedMessages = new ArrayList<>();
     private boolean wasNEIEnabled = false;
@@ -104,6 +105,7 @@ public class InvTweaks extends InvTweaksObfuscation {
         // Store instance
         instance = this;
         isNEILoaded = Loader.isModLoaded("NotEnoughItems");
+        isJEILoaded = Loader.isModLoaded("JEI");
 
         // Load config files
         cfgManager = new InvTweaksConfigManager(mc);
@@ -829,6 +831,11 @@ public class InvTweaks extends InvTweaksObfuscation {
                     if(isChestWayTooBig && isNEIEnabled) {
                         x = guiContainer.guiLeft + guiContainer.xSize - 35;
                         y += 50;
+                    }
+
+                    // JustEnoughItems compatibility
+                    if(isChestWayTooBig && isJEILoaded) {
+                        x = guiContainer.guiLeft - 35;
                     }
 
                     // Settings button
