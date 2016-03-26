@@ -108,14 +108,20 @@ public class InvTweaksConfigSortingRule implements Comparable<InvTweaksConfigSor
             for(int i = 0; i < constraint.length(); i++) {
                 char c = constraint.charAt(i);
                 int digitValue = Character.digit(c, 36); // radix-36 maps 0-9 to 0-9, and [a-zA-Z] to 10-36, see javadoc
-                if(digitValue >= 1 && digitValue <= containerRowSize && digitValue < 10) {
-                    // 1 column = 0, 9 column = 8
-                    column = digitValue - 1;
-                } else if(digitValue >= 10 && (digitValue - 10) <= containerColumnSize) {
-                    // A row = 0, D row = 3, H row = 7
-                    row = digitValue - 10;
-                } else if(charEqualsIgnoreCase(c, 'r')) {
-                    reverse = true;
+                // If we get a -1 digit, assume we have overflowed 9 columns, i don't think its easy to overflow 26 rows
+                if(digitValue == -1) {
+                	// '9' represents column = 8
+                	column = c - '9' + 8;
+                } else {
+	                if(digitValue >= 1 && digitValue <= containerRowSize && digitValue < 10) {
+	                    // 1 column = 0, 9 column = 8
+	                    column = digitValue - 1;
+	                } else if(digitValue >= 10 && (digitValue - 10) <= containerColumnSize) {
+	                    // A row = 0, D row = 3, H row = 7
+	                    row = digitValue - 10;
+	                } else if(charEqualsIgnoreCase(c, 'r')) {
+	                    reverse = true;
+	                }
                 }
             }
 
